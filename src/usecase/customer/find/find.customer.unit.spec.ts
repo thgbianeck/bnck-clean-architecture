@@ -16,7 +16,7 @@ const MockRepository = () => {
 };
 
 describe('Unit Test find customer use case', () => {
-  it('should find a customer', async () => {
+  it('deve encontrar um cliente', async () => {
     const customerRepository = MockRepository();
     const usecase = new FindCustomerUseCase(customerRepository);
 
@@ -40,10 +40,10 @@ describe('Unit Test find customer use case', () => {
     expect(result).toEqual(output);
   });
 
-  it('should not find a customer', async () => {
+  it('não deve encontrar um cliente', async () => {
     const customerRepository = MockRepository();
     customerRepository.find.mockImplementation(() => {
-      throw new Error('Customer not found');
+      throw new Error('Cliente não encontrado');
     });
     const usecase = new FindCustomerUseCase(customerRepository);
 
@@ -53,6 +53,6 @@ describe('Unit Test find customer use case', () => {
 
     expect(() => {
       return usecase.execute(input);
-    }).rejects.toThrow('Customer not found');
+    }).rejects.toThrow('Cliente não encontrado');
   });
 });
