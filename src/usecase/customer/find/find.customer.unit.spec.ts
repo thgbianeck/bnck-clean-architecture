@@ -1,5 +1,8 @@
+import { Sequelize } from 'sequelize-typescript';
 import Customer from '../../../domain/customer/entity/customer';
 import Address from '../../../domain/customer/value-object/address';
+import CustomerModel from '../../../infrastructure/customer/repository/sequelize/customer.model';
+import CustomerRepository from '../../../infrastructure/customer/repository/sequelize/customer.repository';
 import FindCustomerUseCase from './find.customer.usecase';
 
 const customer = new Customer('123', 'John');
@@ -16,7 +19,7 @@ const MockRepository = () => {
 };
 
 describe('Unit Test find customer use case', () => {
-  it('deve encontrar um cliente', async () => {
+  it('should find a customer', async () => {
     const customerRepository = MockRepository();
     const usecase = new FindCustomerUseCase(customerRepository);
 
@@ -40,10 +43,10 @@ describe('Unit Test find customer use case', () => {
     expect(result).toEqual(output);
   });
 
-  it('não deve encontrar um cliente', async () => {
+  it('should not find a customer', async () => {
     const customerRepository = MockRepository();
     customerRepository.find.mockImplementation(() => {
-      throw new Error('Cliente não encontrado');
+      throw new Error('Customer not found');
     });
     const usecase = new FindCustomerUseCase(customerRepository);
 
@@ -53,6 +56,6 @@ describe('Unit Test find customer use case', () => {
 
     expect(() => {
       return usecase.execute(input);
-    }).rejects.toThrow('Cliente não encontrado');
+    }).rejects.toThrow('Customer not found');
   });
 });
