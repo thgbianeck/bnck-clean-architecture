@@ -1,14 +1,6 @@
 import { InputCreateProductDto } from './create.product.dto';
 import CreateProductUseCase from './create.product.usecase';
 
-let input: InputCreateProductDto;
-beforeEach(async () => {
-  input = {
-    name: 'Bola de Futebol',
-    price: 19.99,
-  };
-});
-
 const MockRepository = () => {
   return {
     find: jest.fn(),
@@ -19,6 +11,13 @@ const MockRepository = () => {
 };
 
 describe('Unit test create product use case', () => {
+  let input: InputCreateProductDto;
+  beforeEach(async () => {
+    input = {
+      name: 'Bola de Futebol',
+      price: 19.99,
+    };
+  });
   it('should create a product', async () => {
     const productRepository = MockRepository();
     const productCreateUseCase = new CreateProductUseCase(productRepository);
