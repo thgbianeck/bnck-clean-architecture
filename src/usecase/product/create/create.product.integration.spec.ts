@@ -4,15 +4,6 @@ import ProductRepository from '../../../infrastructure/product/repository/sequel
 import { InputCreateProductDto } from './create.product.dto';
 import CreateProductUseCase from './create.product.usecase';
 
-const MockRepository = () => {
-  return {
-    find: jest.fn(),
-    findAll: jest.fn(),
-    create: jest.fn(),
-    update: jest.fn(),
-  };
-};
-
 describe('Test create product use case', () => {
   let input: InputCreateProductDto;
   let sequelize: Sequelize;
@@ -30,6 +21,10 @@ describe('Test create product use case', () => {
     });
     await sequelize.addModels([ProductModel]);
     await sequelize.sync();
+  });
+
+  afterEach(async () => {
+    await sequelize.close();
   });
 
   it('should create a product', async () => {
